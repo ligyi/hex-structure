@@ -6,6 +6,7 @@ import (
 
 	"github.com/samverrall/hex-structure/internal/core/services/users"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type App struct {
@@ -13,6 +14,7 @@ type App struct {
 	userAPI    users.API
 	port       int
 	serverOpts []grpc.ServerOption
+	reflection bool
 }
 
 func NewApp(userAPI users.API, opts ...AppOption) *App {
@@ -28,6 +30,10 @@ func NewApp(userAPI users.API, opts ...AppOption) *App {
 	}
 
 	s.grpc = grpc.NewServer(s.serverOpts...)
+
+	if s.reflection {
+		reflection.Register(s.grpc)
+	}
 
 	s.initAppRoutes()
 

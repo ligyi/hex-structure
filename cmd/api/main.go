@@ -35,7 +35,12 @@ func main() {
 	// both transports drive the same service instance, so business logic stays
 	// in one place no matter which adapter a client talks to.
 	httpSrv := web.NewApp(usersService, web.WithPort(httpPort))
-	grpcSrv := grpcadapter.NewApp(usersService, grpcadapter.WithPort(grpcPort))
+	grpcSrv := grpcadapter.NewApp(usersService,
+		grpcadapter.WithPort(grpcPort),
+		// reflection lets `grpcui`/`grpcurl` work without the .proto; drop it
+		// (or gate it behind config) if the API should not be introspectable.
+		grpcadapter.WithReflection(),
+	)
 
 	// Run each server blocks until it stops, so serve them concurrently.
 	// The buffered channel means the second server never leaks a goroutine.

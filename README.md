@@ -32,11 +32,17 @@ curl -X POST localhost:8000/users -H 'Content-Type: application/json' -d '{"user
 # {"userId":"..."}
 ```
 
-gRPC (service `user.v1.UserService`, method `CreateAccount`):
+gRPC (service `user.v1.UserService`, method `CreateAccount`). The server speaks plaintext h2c, so client
+tools need `-plaintext` — without it you get `tls: first record does not look like a TLS handshake`:
 
 ```sh
 grpcurl -plaintext -d '{"username":"alice"}' localhost:50051 user.v1.UserService/CreateAccount
+grpcui -plaintext localhost:50051        # browser UI
 ```
+
+`cmd/api` enables gRPC server reflection (`WithReflection()` → `reflection.Register`), so grpcui and
+grpcurl discover the API on their own. Drop that option (or gate it behind config) if the API should not
+be introspectable, in which case those tools need `-proto proto/user/v1/user.proto`.
 
 Domain validation failures come back as `codes.InvalidArgument`; anything unexpected becomes
 `codes.Internal`.
