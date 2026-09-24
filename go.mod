@@ -1,10 +1,12 @@
 module github.com/samverrall/hex-structure
 
-go 1.21.0
+go 1.25.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.49.2
-	github.com/google/uuid v1.3.1
+	github.com/google/uuid v1.6.0
+	google.golang.org/grpc v1.84.0
+	google.golang.org/protobuf v1.36.12
 )
 
 require (
@@ -17,5 +19,8 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.49.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/net v0.57.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/text v0.40.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260706201446-f0a921348800 // indirect
 )
