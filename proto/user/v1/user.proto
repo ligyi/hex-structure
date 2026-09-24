@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/samverrall/hex-structure/gen/user/v1;userv1";
+
+// UserService is the gRPC transport for the users application service.
+// It mirrors the inbound port internal/core/services/users.API.
+service UserService {
+  // CreateAccount registers a new user and returns its generated identifier.
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+}
+
+message CreateAccountRequest {
+  string username = 1;
+}
+
+message CreateAccountResponse {
+  string user_id = 1;
+}
